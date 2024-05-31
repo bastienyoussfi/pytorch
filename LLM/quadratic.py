@@ -1,12 +1,35 @@
 import numpy as np, matplotlib.pyplot as plt
+from numpy.random import normal,seed,uniform
 
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+
+np.random.seed(42)
+
+min=-2
+max=2
 
 def f(x): return -3*x**2 + 2*x + 20
 
+def noise(x, scale): 
+    return normal(scale=scale, size=x.shape)
 
-def plot_function(f, min=-2.1, max=2.1, color='r'):
-    x = np.linspace(min,max, 100)[:,None]
+def add_noise(x, mult, add): 
+    return x * (1+noise(x, mult)) + noise(x, add)
+
+x = np.linspace(min, max, num=20)[:,None]
+y = add_noise(f(x), 0.1, 1.3)
+
+def plot_function(f, min=-2, max=2, color='r'):
     plt.plot(x, f(x), color)
-    plt.show()
+    
+def plot_poly(degree):
+    model = make_pipeline(PolynomialFeatures(degree), LinearRegression())
+    model.fit(x, y)
+    plt.scatter(x, y)
+    plot_function(model.predict)
 
-plot_function(f)
+plot_poly(2)
+plot_function(f, color='b')
+plt.show()

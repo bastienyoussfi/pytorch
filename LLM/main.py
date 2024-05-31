@@ -45,4 +45,6 @@ tok_ds = tok_ds.rename_columns({'score':'labels'})
 eval_df = pd.read_csv(path/'test.csv')
 stats = eval_df.describe()
 
-print(stats)
+dds = tok_ds.train_test_split(0.25, seed=42)
+
+print(dds)
