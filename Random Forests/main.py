@@ -36,8 +36,12 @@ proc_data(df)
 head = df.Sex.head()
 realHead = df.Sex.cat.codes.head()
 
+# Defines the palette and the axis
 palette=['red', 'blue', 'green', 'purple']
 fig,axs = plt.subplots(1,2, figsize=(11,5))
+
+# Barplot and countplot of the survival rate depending on the sex
 sns.barplot(data=df, y=dep, x="Sex", ax=axs[0], palette=palette).set(title="Survival rate")
 sns.countplot(data=df, x="Sex", ax=axs[1]).set(title="Histogram");
+
 plt.savefig("plot.png")
